@@ -21,7 +21,7 @@ def is_valid_url(url):
 
 def get_all_links(url, domain):
     try:
-        response = requests.get(url)
+        response = requests.get(url, timeout=10)
         response.raise_for_status()
         soup = BeautifulSoup(response.text, 'html.parser')
         links = set()
@@ -54,7 +54,7 @@ def scrape_website(start_url):
                 continue
             visited_urls.add(url)
             try:
-                response = requests.get(url)
+                response = requests.get(url, timeout=10)
                 response.raise_for_status()
                 soup = BeautifulSoup(response.text, 'html.parser')
                 page_content = clean_content(soup)
@@ -85,4 +85,4 @@ def index():
     ''')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port=5000)
